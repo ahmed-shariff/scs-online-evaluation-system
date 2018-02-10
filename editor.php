@@ -9,12 +9,13 @@
 	</head>
 
 	<body>
+		<input type="text" name="filename" placeholder="file name" id='filename'>
+		<button id="save">Save</button>
+		<button id='edit'>Edit</button>
 		<div>
 			<textarea name="code" cols=50 rows=20 id='code'></textarea>
-			<button id="save" onclick="transfer();">Save</button>
 		</div>
 		<div id='displayarea'>
-			<button id='edit' onclick="editable();">edit</button>
 			<pre>
 				<code class="cpp" id="display">
 				</code>
@@ -37,9 +38,21 @@
 			$('#displayarea').hide();
 		});
 
-		function transfer(){
+		$('#save').click(function() {
 			var element = document.getElementById('code');
 			parsedText = parseAngleBrackets(element.value);
+			var filename = document.getElementById('filename').value;
+
+			$.post("save.php",
+				{
+					'filename': filename,
+					'filetext' : element.value
+				},
+				function(data, status){
+					alert("Data: " + data + "\nStatus: " + status);
+				}
+			);
+
 			document.getElementById('display').innerHTML = parsedText;
 			$('pre code').each(function(i, block) {
 		    	hljs.highlightBlock(block);
@@ -48,14 +61,37 @@
 			$('#code').hide();
 			$('#edit').show();
 			$('#displayarea').show();
-		}
+		});
 
-		function editable(){
+		$('#edit').click(function (){
 			$('#edit').hide();
 			$('#displayarea').hide();
 			$('#save').show();
 			$('#code').show();
-		}
+		});
+
+		$("textarea").keydown(function(e) {
+			//stolen from stackoverflow
+			if(e.keyCode === 9) { // tab was pressed
+			// get caret position/selection
+				var start = this.selectionStart;
+				var end = this.selectionEnd;
+
+				var $this = $(this);
+				var value = $this.val();
+
+				// set textarea value to: text before caret + tab + text after caret
+				$this.val(value.substring(0, start)
+					+ "\t"
+					+ value.substring(end));
+
+					// put caret at right position again (add one for the tab)
+					this.selectionStart = this.selectionEnd = start + 1;
+
+					// prevent the focus lose
+					e.preventDefault();
+				}
+			});
 		</script>
 	</body>
 </html>
