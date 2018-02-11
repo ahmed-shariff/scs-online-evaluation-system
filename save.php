@@ -2,8 +2,18 @@
 	$filename = $_POST['filename'];
 	$filetext = $_POST['filetext'];
 
-	$file = fopen($filename, "w") or die('IOError');
-	fwrite($file, $filetext);
+	try{
+		$file = fopen($filename, "w"); 
+		if($file!=Null)
+		{
+			fwrite($file, $filetext);
+			fclose($file);
+		}
+	}
+	catch(Exception $e)
+	{
+		echo $e->getMessage();
+		echo 'error';
+	}
 
-	fclose($file);
 ?>

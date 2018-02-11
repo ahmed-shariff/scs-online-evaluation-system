@@ -2,10 +2,13 @@
 
 ## TODO
 - User management
-- File manager
-- Terminal
-- Saving files on the server and compiling
 - Styling
 - Change file name
 - shift tab
 - indentaion
+- Discuss about adding a separate terminal, giving clickable buttons would restrict users automatically.
+
+## Features
+- Can create new files
+- Compile C source
+- Run correctly compiled code

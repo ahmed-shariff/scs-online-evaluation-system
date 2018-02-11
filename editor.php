@@ -12,6 +12,8 @@
 		<input type="text" name="filename" placeholder="file name" id='filename'>
 		<button id="save">Save</button>
 		<button id='edit'>Edit</button>
+		<button id='compile'>Compile</button>
+		<button id='run'>Run</button>
 		<div>
 			<textarea name="code" cols=50 rows=20 id='code'></textarea>
 		</div>
@@ -29,13 +31,14 @@
 
 		<!-- reserved for restricted terminal -->
 		<div class='terminal'>
-
 		</div>
 
 		<script>
 		$(document).ready(function () {
 			$('#edit').hide();
 			$('#displayarea').hide();
+			$('#compile').hide();
+			$('#run').hide();
 		});
 
 		$('#save').click(function() {
@@ -49,7 +52,7 @@
 					'filetext' : element.value
 				},
 				function(data, status){
-					alert("Data: " + data + "\nStatus: " + status);
+					console.log(status);
 				}
 			);
 
@@ -57,9 +60,12 @@
 			$('pre code').each(function(i, block) {
 		    	hljs.highlightBlock(block);
 		      });
+
 			$('#save').hide();
 			$('#code').hide();
 			$('#edit').show();
+			$('#compile').show();
+			$('#run').show();
 			$('#displayarea').show();
 		});
 
@@ -68,6 +74,32 @@
 			$('#displayarea').hide();
 			$('#save').show();
 			$('#code').show();
+			$('#compile').hide();
+			$('#run').hide();
+		});
+
+		$('#compile').click(function() {
+			var filename = document.getElementById('filename').value;
+			$.post("compile.php", 
+				{
+					'filename':filename
+				},
+				function(data, status){
+					console.log(status+' \n '+data);
+					console.log('---------------------------------------');
+				}
+			);
+		});
+
+		$('#run').click(function() {
+			var filename = document.getElementById('filename').value;
+			$.post("run.php",
+				{'filename':filename},
+				function(data, status)
+				{
+					console.log(data);
+					console.log('--------------------------------------');
+				});
 		});
 
 		$("textarea").keydown(function(e) {
