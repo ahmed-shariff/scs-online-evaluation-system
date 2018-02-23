@@ -21,86 +21,99 @@
 
 	<!-- Latest compiled JavaScript -->
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-	
+
+	<!-- jQuerry.terminal -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.terminal/1.11.4/js/jquery.terminal.min.js"></script>
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/jquery.terminal/1.11.4/css/jquery.terminal.min.css" rel="stylesheet"/>
+
+	<script src="ace-builds/src-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
 	<script>hljs.initHighlightingOnLoad();</script>
 	<style type="text/css" media="screen">
-	 #editor { 
-	     position: absolute;
-	 }
 	</style>
-
+	
 	<script>
 	 $( document ).ready(function() {
-	    var editor = ace.edit("editor");
-	    editor.setTheme("ace/theme/monokai");
-	    editor.session.setMode("ace/mode/javascript");
-	    
-	    $("#editor").height($("body").height() - $("nav").height() - 3);
-	    $('#save').click(function() {
-		var element = editor.getValue();
-		parsedText = parseAngleBrackets(element);
-		var filename = $("#filename").val();
-		$.post("save.php",
-		       {
-			   'filename': filename,
-			   'filetext' : element
-		       },
-		       function(data, status){
-			   console.log(status);
-		       }
-		      );
-		
-		// document.getElementById('display').innerHTML = parsedText;
-		// $('pre code').each(function(i, block) {
-		//     hljs.highlightBlock(block);
-		// });
-
-		// $('#save').hide();
-		// $('#code').hide();
-		// $('#edit').show();
-		// $('#compile').show();
-		// $('#run').show();
-		// $('#displayarea').show();
-	    });
+	     var editor = ace.edit("editor");
+	     editor.setTheme("ace/theme/ambiance");
+	     editor.session.setMode("ace/mode/javascript");
+	     var available_height = $("body").height() - $("nav").height() - 3;
+	     
+	     $("#editor").height(available_height * 0.7);//$("body").height() - $("nav").height() - 3);
+	     $("#terminal").height(available_height * 0.3);
+	     $('#save').click(function() {
+		 var element = editor.getValue();
+		 parsedText = parseAngleBrackets(element);
+		 var filename = $("#filename").val();
+		 $.post("save.php",
+			{
+			    'filename': filename,
+			    'filetext' : element
+			},
+			function(data, status){
+			    console.log(status);
+			}
+		 );
+	     });
+	     $('#terminal').terminal(function(command, term) {
+		 term.pause();
+		 $.post('echo_command.php', {command: command}).then(function(response) {
+		     term.echo(response).resume();
+		 });
+	     }, {
+		 greetings: 'Dummy Terminal',
+		 onBlur: function() {
+		     return false;
+		 }
+	     });
+	     
 	 });
 	 
 	</script>
     </head>
 
     <body>
-	<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
-	    <div class="navbar-header">
-		<div class="navbar-brand">SCS Online Portal</div>
-	    </div>
-	    <div class="input-group-sm form-inline">
-		<input type="text" class="form-control" placeholder="File Name" id="filename">
-		<div class="input-group-append">
-		    <button class="btn btn-outline-secondary" type="button" id="save">Save</button>
+	<div class="container-fluid" style="width:100%">
+	    <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+		<div class="navbar-header">
+		    <div class="navbar-brand">SCS Online Portal</div>
+		</div>
+		<div class="input-group-sm form-inline">
+		    <input type="text" class="form-control" placeholder="File Name" id="filename">
+		    <div class="input-group-append">
+			<button class="btn btn-outline-secondary" type="button" id="save">Save</button>
+		    </div>
+		</div>
+		<ul class="navbar-nav">
+		    <li class="nav-item active">
+			<a class="nav-link" href="#">Active</a>
+		    </li>
+		    <li class="nav-item">
+			<a class="nav-link" href="#">Link</a>
+		    </li>
+		    <li class="nav-item">
+			<a class="nav-link" href="#">Link</a>
+		    </li>
+		    <li class="nav-item">
+			<a class="nav-link disabled" href="#">Disabled</a>
+		    </li>
+		</ul>
+	    </nav>
+	
+	    <div class="row">
+		<div class="col-xs-12 col-sm-12 col-md-12">
+		    <div id="editor">
+		    function foo(items) {
+			var x = "All this is syntax highlighted";
+			return x;
+			}
+		    </div>
 		</div>
 	    </div>
-	    <ul class="navbar-nav">
-		<li class="nav-item active">
-		    <a class="nav-link" href="#">Active</a>
-		</li>
-		<li class="nav-item">
-		    <a class="nav-link" href="#">Link</a>
-		</li>
-		<li class="nav-item">
-		    <a class="nav-link" href="#">Link</a>
-		</li>
-		<li class="nav-item">
-			<a class="nav-link disabled" href="#">Disabled</a>
-		</li>
-	    </ul>
-	</nav>
-	<div class="col-xs-12 col-sm-12 col-md-12" id="editor">
-	    function foo(items) {
-	    var x = "All this is syntax highlighted";
-	    return x;
-	    }
+	    <div class="row">
+		<div class="col-xs-12 col-sm-12 col-md-12">
+		    <div id="terminal"></div>
+		</div>
+	    </div>
 	</div>
-	<script src="/scs/ace-builds/src-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
-	<script>
-	</script>
     </body>
 </html>
