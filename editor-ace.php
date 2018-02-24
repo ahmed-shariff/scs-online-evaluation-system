@@ -60,10 +60,7 @@
 		     term.echo(response).resume();
 		 });
 	     }, {
-		 greetings: 'Dummy Terminal',
-		 onBlur: function() {
-		     return false;
-		 }
+		 greetings: 'Dummy Terminal'
 	     });
 	     
 	 });
