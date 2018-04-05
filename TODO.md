@@ -6,7 +6,7 @@
 <ul>
 <li><a href="#sec-1-1">1.1. User interface for students <code>[0/3]</code></a></li>
 <li><a href="#sec-1-2">1.2. User interface for tutors <code>[0/5]</code></a></li>
-<li><a href="#sec-1-3">1.3. Tutorial framework <code>[0/3]</code></a></li>
+<li><a href="#sec-1-3">1.3. Tutorial framework <code>[0/2]</code></a></li>
 <li><a href="#sec-1-4">1.4. Editor <code>[1/4]</code></a></li>
 <li><a href="#sec-1-5">1.5. Terminal <code>[1/4]</code></a></li>
 <li><a href="#sec-1-6">1.6. Analytic Engine <code>[0/2]</code></a></li>
@@ -47,9 +47,22 @@ PS: do not edit the TODO.md file, as it is generated. Make necessary edits to th
 -   [ ] Perhaps mechanism to share permission of certain action with other tutors.
 -   [ ] Get statistics and analysis of student work and behavior.
 
-## Tutorial framework <code>[0/3]</code><a id="sec-1-3" name="sec-1-3"></a>
+## Tutorial framework <code>[0/2]</code><a id="sec-1-3" name="sec-1-3"></a>
 
 -   [ ] Define templates for practical/ tutorial/ lab sheets, along with how it is to be evaluated.
+    -   The templates are stored as XML files. This can be generated using a web interface.
+    -   The student answers also can use the same format.
+    -   When the student or tutor downloads the tutorial the file can be formatted as a pdf file.
+    -   The file will include:
+        -   The course (which can be used to generate appropriate files for the students).
+        -   The tutors name (So we know who to blame when shit hits the fan).
+        -   A reference number, which can be used to access the particular tutorial/whatever through a database for any number of reasons.
+        -   Several types of nodes:
+            -   Editor, which will be used to place an editor in that space. (Maybe similar to jupyter notebooks kernal?)
+            -   Questions, does this just include text descriptions or is a editor must? and are we to include more fine grained details to assist the evaluation framework.
+            -   Descriptions, which are not related to questions, but general statements and such.
+            -   Visual element, as it sounds. So we can include a proper process to processing this at different stages.
+            -   Code snippets, is it different from visual elements?
 -   [ ] Process templates.
     -   [ ] Generate  practical/ tutorial/ lab sheets for students.
     -   [ ] Generate evaluation framework for tutor.
