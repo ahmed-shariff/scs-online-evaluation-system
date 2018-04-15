@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+  <course>cs104</course>
+  <tutor>Poopsalot</tutor>
+  <description>This is a sample totorial</description>
+  <question>
+    <description>
+      This is question 1
+    </description>
+    <editor>Sample code, maybe instructions</editor>
+  </question>
+  <question>
+    <description>
+      This is question 2
+    </description>
+    <editor></editor><!-- no sample code here-->
+  </question>
+</document>
