@@ -1,6 +1,7 @@
 <script src="<?php  echo $ROOT?>/ace-builds/src-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
 <script>
  $( document ).ready(function() {
+     alert("yoooooo");
      //alert($(".editor")[0].parentNode.innerHTML)
      $(".editor").each(function(idx, dom){
 	 var editor = ace.edit(dom);
